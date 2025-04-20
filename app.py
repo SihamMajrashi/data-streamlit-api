@@ -1,4 +1,6 @@
 import streamlit as st
+import requests
+import datetime 
 '''
 # TaxiFareModel front
 '''
@@ -45,3 +47,35 @@ if url == 'https://taxifare.lewagon.ai/predict':
 
 ## Finally, we can display the prediction to the user
 '''
+# passanger count
+passenger_count = st.number_input("Number of Passengers", step =  1)
+st.write(passenger_count)
+
+#date and time of the ride
+date = str(st.date_input("when your Taxi ride?!", datetime.date(2024, 5, 14)))
+time  = str(st.time_input("Number of Passengers", datetime.time(8, 45)))
+
+date_and_time = 'Your ride is on :' + ' '+ date + ' ' + time
+
+#date_and_time = datetime.datetime.strptime(date_and_time, '%Y/%m/%dT%H:%M:%S')
+st.write(date_and_time)
+
+#pickup Location 
+pickup_longitude = st.number_input("Enter the pickup longitude Number:")
+pickup_latitude = st.number_input("Enter the pickup latitude Number:")
+st.write("the pickup Location:", (pickup_longitude, pickup_latitude))
+
+#dropoff Location 
+dropoff_longitude = st.number_input("Enter the  dropoff longitude Number:")
+dropoff_latitude= st.number_input("Enter the dropoff latitude Number:")
+st.write("the dropoff Location:", (dropoff_longitude, dropoff_latitude))
+
+parms = {'pickup_datetime':date_and_time,
+         'pickup_longitude':pickup_longitude,
+         'pickup_latitude':pickup_latitude,
+         'dropoff_longitude' : dropoff_longitude,
+         'dropoff_latitude' : dropoff_latitude,
+         'passenger_count': passenger_count
+         }
+
+res = requests.get('https://taxifare.lewagon.ai/predict', params = parms)
