@@ -79,3 +79,4 @@ parms = {'pickup_datetime':date_and_time,
          }
 
 res = requests.get('https://taxifare.lewagon.ai/predict', params = parms)
+st.write(res.json())
